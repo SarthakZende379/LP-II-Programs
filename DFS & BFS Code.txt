@@ -1,0 +1,111 @@
+#BFS Program
+
+def bfs(visit_complete, graph, current_node):
+    visit_complete.append(current_node)
+    queue = []
+    queue.append(current_node)
+    while queue:
+        s = queue.pop(0)
+        print(s)
+        for neighbour in graph[s]:
+            if neighbour not in visit_complete:
+                visit_complete.append(neighbour)
+                queue.append(neighbour)
+#Creating a graph using adjacency list
+graph={}
+n=int(input('Enter the number of nodes in the graph: '))
+for i in range(n):
+    print('Enter vertex no',i+1,': ')
+    node=input()
+    m=int(input('How many neighbors? '))
+    neighbors=[]
+    for j in range(m):
+        print('enter neighbor no ',j+1,end='')
+        neighbor=input()
+        neighbors.append(neighbor)
+    graph[node]=neighbors
+bfs([],graph,list(graph.keys())[0])
+
+INPUT:
+Enter the number of nodes in the graph: 9
+Enter vertex no 1 :
+1
+How many neighbors? 2
+enter neighbor no 1
+2
+enter neighbor no 2
+3
+Enter vertex no 2 :
+2
+How many neighbors? 2
+enter neighbor no 1
+4
+enter neighbor no 2
+5
+Enter vertex no 3 :
+3
+How many neighbors? 3
+enter neighbor no 1
+6
+enter neighbor no 2
+7
+enter neighbor no 3
+8
+Enter vertex no 4 :
+4
+How many neighbors? 0
+Enter vertex no 5 :
+5
+How many neighbors? 0
+Enter vertex no 6 :
+6
+How many neighbors? 1
+enter neighbor no 1
+9
+Enter vertex no 7 :
+7
+How many neighbors? 0
+Enter vertex no 8 :
+8
+How many neighbors? 0
+Enter vertex no 9 :
+9
+
+OUTPUT:
+Following is the bfs on the graph:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+
+#DFS Program
+
+# Using a Python dictionary to act as an adjacency list
+graph = {
+  '5' : ['3','7'],
+  '3' : ['2', '4'],
+  '7' : ['8'],
+  '2' : [],
+  '4' : ['8'],
+  '8' : [],
+  '9' : []
+}
+
+visited = set() # Set to keep track of visited nodes of graph.
+
+def dfs(visited, graph, node):  #function for dfs 
+    if node not in visited:
+        print (node)
+        visited.add(node)
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
+
+# Driver Code
+print("Following is the Depth-First Search")
+dfs(visited, graph, '5')
