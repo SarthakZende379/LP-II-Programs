@@ -1,0 +1,190 @@
+/* N queens problem using Branch and Bound */
+
+#include <bits/stdc++.h>
+using namespace std;
+
+bool isSafe(int** arr,int x,int y,int n){
+    
+    for (int row = 0; row < x; row++)
+    {
+        if (arr[row][y]==1)
+        {
+            return false;
+        } 
+    }
+    
+    int row=x;
+    int col=y;
+    while (row>=0 && col>=0)
+    {
+        if (arr[row][col]==1)
+        {
+            return false;
+        }
+        row--;
+        col--;
+    }
+     
+    row=x;
+    col=y;
+    while (row>=0 && col<n)
+    {
+        if (arr[row][col]==1)
+        {
+            return false;
+        }
+        row--;
+        col++;
+    }
+    return true;
+}
+
+bool nQueen(int** arr, int x, int n){
+    if (x>=n)
+    {
+        return true;
+    }
+    
+    for (int col = 0; col < n; col++)
+    {
+        if (isSafe(arr,x,col,n))
+        {
+            arr[x][col]=1;
+
+            if (nQueen(arr,x+1,n))
+            {
+                return true;
+            }
+            arr[x][col]=0;
+        }
+        
+    }
+    return false;
+
+}
+
+int main(){
+
+    int n;
+    cin>>n;
+
+    int** arr=new int*[n];
+    for (int i = 0; i < n; i++)
+    {
+        arr[i]=new int[n];
+        for (int j = 0; j < n; j++)
+        {
+            arr[i][j]=0;
+        }
+        
+    }
+    
+    if (nQueen(arr,0,n))
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cout<<arr[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+
+    }
+return 0;
+}
+
+output : 4 or 8 
+
+==================================================
+
+#N queens backtracking code Assign-4 Part-2
+
+from typing import List # For annotations
+
+boardcnt = 0
+
+def IsBoardOk (chessboard : List, row : int, col : int) :
+
+   # Check if there is a queen 'Q' positioned to the left of column col on the same row.
+   for c in range(col) :
+       if (chessboard[row][c] == 'Q') :
+           return False
+
+   # Check if there is queen 'Q' positioned on the upper left diagonal
+   for r, c in zip(range(row-1, -1, -1), range(col-1, -1, -1)) :
+       if (chessboard[r][c] == 'Q') :
+           return False
+
+   # Check if there is queen 'Q' positioned on the lower left diagonal
+   for r, c in zip(range(row+1, len(chessboard), 1), range(col-1, -1, -1)) :
+      if (chessboard[r][c] == 'Q') :
+          return False
+
+   return True
+
+def DisplayBoard (chessboard : List) :
+
+    for row in chessboard :
+        print(row)
+
+def PlaceNQueens (chessboard : List, col : int) :
+
+    # If all the columns have a queen 'Q', a solution has been found.
+    global boardcnt
+
+    if (col >= len(chessboard)) :
+
+        boardcnt += 1
+        print("Board " + str(boardcnt))
+        print("==========================")
+        DisplayBoard(chessboard)
+        print("==========================\n")
+
+    else :
+
+        # Else try placing the queen on each row of the column and check if the chessboard remains OK.
+        for row in range(len(chessboard)) :
+
+            chessboard[row][col] = 'Q'
+
+            if (IsBoardOk(chessboard, row, col) == True) :
+                # Chess board was OK, hence try placing the queen 'Q' in the next column.
+                PlaceNQueens(chessboard, col + 1)
+
+            chessboard[row][col] = '.'; # As previously placed queen was not valid, restore '.'
+
+def main() :
+
+   chessboard = []
+   N = int(input("Enter chessboard size : "))
+
+   for i in range(N) :
+       row = ["."] * N
+       chessboard.append(row)
+
+   # Start placing the queen 'Q' from the 0'th column.
+   PlaceNQueens(chessboard, 0)
+
+if __name__ == "__main__" :
+    main()
+
+
+Output : 
+
+Enter chessboard size : 4
+Board 1
+==========================
+['.', '.', 'Q', '.']
+['Q', '.', '.', '.']
+['.', '.', '.', 'Q']
+['.', 'Q', '.', '.']
+==========================
+
+Board 2
+==========================
+['.', 'Q', '.', '.']
+['.', '.', '.', 'Q']
+['Q', '.', '.', '.']
+['.', '.', 'Q', '.']
+==========================
